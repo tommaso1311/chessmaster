@@ -1,6 +1,3 @@
-# Project folders
-BIN_FOLDER = 'bin'
-ASSETS_FOLDER = 'assets'
-
-# Project assets
-CHESSBOARD_SVG = 'chessboard.svg'
+MAIN_WINDOW_TITLE = 'Chessmaster'
+MAIN_WINDOW_WIDTH = 800
+MAIN_WINDOW_HEIGHT = 800
