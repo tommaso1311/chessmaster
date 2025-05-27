@@ -9,13 +9,17 @@ from bin.ui.chess_board import ChessBoardWidget
 class Controller:
     def __init__(self, args):
         # Core
-        self.chess_game = None # will be initialized when loading a PGN file
-        empty_board_svg = ChessGame.get_empty_board_svg()
-        
+        self.chess_game = ChessGame(game=None) # empty game
+        empty_svg_data = self.chess_game.get_svg() # empty chessboard
+        empty_move_set = self.chess_game.get_moves_list() # empty move set
+
         # UI - Main Window
         self.app = QApplication(args)
-        self.main_window = MainWindow(svg_data=empty_board_svg)
+        self.main_window = MainWindow()
         self.create_menu_bar()
+
+        self.main_window.refresh_chessboard_widget(empty_svg_data)
+        self.main_window.refresh_pgn_viewer_widget(empty_move_set, highlighted_move=None)
 
     def create_menu_bar(self):
         menubar = self.main_window.menuBar()
@@ -36,7 +40,7 @@ class Controller:
         moves = self.chess_game.get_moves_list()
 
         self.main_window.refresh_chessboard_widget(svg)
-        self.main_window.refresh_pgn_viewer_widget(moves)
+        self.main_window.refresh_pgn_viewer_widget(moves, highlighted_move=0)
 
     def runapp(self):
         self.main_window.show()

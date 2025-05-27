@@ -2,24 +2,20 @@ import chess
 import chess.svg
 import chess.pgn
 
+from bin.constants import EMPTY_BOARD_FEN
+
 class ChessGame:
-    def __init__(self, game):
-        self._game = game
-
-    # def reset(self):
-    #     self._board.reset()
-
-    # def move_san(self, move):
-    #     self.board.push_san(move)
-
-    # def move_uci(self, move):
-    #     self.board.push_uci(move)
+    def __init__(self, game=None):
+        if game is None:
+            game = self._create_empty_game()
+        self.game = game
     
-    @staticmethod
-    def get_empty_board_svg():
-        empty_board = chess.Board(None)
-        empty_board_svg = chess.svg.board(board=empty_board)
-        return empty_board_svg
+    @classmethod
+    def _create_empty_game(cls):
+        empty_board = chess.Board(EMPTY_BOARD_FEN)
+        game = chess.pgn.Game()
+        game.setup(empty_board)
+        return game
 
     @classmethod
     def from_pgn_file(cls, pgn_filename):
@@ -28,12 +24,12 @@ class ChessGame:
         return cls(game=game)
 
     def get_svg(self):
-        return chess.svg.board(board=self._game.board())
+        return chess.svg.board(board=self.game.board())
 
     def get_moves_list(self):
         moves = []
-        temp_board = self._game.board()
-        for move in self._game.mainline_moves():
+        temp_board = self.game.board()
+        for move in self.game.mainline_moves():
             moves.append(temp_board.san(move))
             temp_board.push(move)
         return moves
