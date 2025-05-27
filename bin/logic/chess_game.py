@@ -5,6 +5,9 @@ class ChessGame:
     def __init__(self):
         self._board = chess.Board()
 
+    def load_game(self, game):
+        self._board = game.board()
+
     def reset(self):
         self._board.reset()
 
