@@ -33,7 +33,10 @@ class Controller:
 
         self.chess_game = ChessGame.from_pgn_file(pgn_filename)
         svg = self.chess_game.get_svg()
+        moves = self.chess_game.get_moves_list()
+
         self.main_window.refresh_chessboard_widget(svg)
+        self.main_window.refresh_pgn_viewer_widget(moves)
 
     def runapp(self):
         self.main_window.show()

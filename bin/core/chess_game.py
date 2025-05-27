@@ -6,9 +6,6 @@ class ChessGame:
     def __init__(self, game):
         self._game = game
 
-    # def load_game(self, game):
-    #     self._board = game.board()
-
     # def reset(self):
     #     self._board.reset()
 
@@ -32,3 +29,11 @@ class ChessGame:
 
     def get_svg(self):
         return chess.svg.board(board=self._game.board())
+
+    def get_moves_list(self):
+        moves = []
+        temp_board = self._game.board()
+        for move in self._game.mainline_moves():
+            moves.append(temp_board.san(move))
+            temp_board.push(move)
+        return moves
