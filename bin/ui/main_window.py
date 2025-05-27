@@ -1,5 +1,4 @@
 # from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout
-# from PySide6.QtGui import QAction
 
 # from bin.ui.chessboard import ChessboardWidget
 # from bin.ui.pgn_viewer import PgnViewerWidget
@@ -63,12 +62,11 @@
 from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout
 
 from bin.constants import MAIN_WINDOW_TITLE, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT
-
 from bin.ui.chess_board import ChessBoardWidget
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None, svg_data=None):
-        # Initialize the main window with a title and size
+        # Initialize the main window with a title, a size, and a menu bar
         super().__init__(parent)
         self.setWindowTitle(MAIN_WINDOW_TITLE)
         self.resize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT)
