@@ -86,8 +86,9 @@ class MainWindow(QMainWindow):
         self.pgn_viewer_widget = PgnViewerWidget()
         layout.addWidget(self.pgn_viewer_widget, stretch=1)
 
-        # Load the initial chessboard SVG
+        # Load the initial chessboard SVG and moves
         self.refresh_chessboard_widget(svg_data)
+        self.refresh_pgn_viewer_widget([])
 
     def refresh_chessboard_widget(self, svg_data):
         self.chess_board_widget.load_from_svg(svg_data)
