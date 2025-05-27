@@ -1,17 +1,27 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow
 
-from bin.chess.chessboard import ChessBoardWidget
+from bin.ui.chessboard import ChessboardWidget
+from bin.logic.chess_engine import ChessGame
 
-app = QApplication(sys.argv)
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Chessmaster")
 
-window = QMainWindow()
-window.setWindowTitle("Chessmaster")
-window.resize(600, 600)
+        self.game = ChessGame()
+        self.widget = ChessboardWidget()
 
-chessboard = ChessBoardWidget()
-window.setCentralWidget(chessboard)
+        self.setCentralWidget(self.widget)
+        self.refresh_view()
 
-window.show()
+    def refresh_view(self):
+        svg = self.game.get_svg()
+        self.widget.update_from_svg(svg)
 
-sys.exit(app.exec())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    
+    window.show()
+    sys.exit(app.exec())
