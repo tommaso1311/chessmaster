@@ -48,7 +48,7 @@ class ChessGame:
         return None
     
     def move_backward(self):
-        if self.current_move_index > 0:
+        if self.current_move_index >= 0:
             move = self.san_moves_list[self.current_move_index - 1]
             self.board.pop()
             self.current_move_index -= 1

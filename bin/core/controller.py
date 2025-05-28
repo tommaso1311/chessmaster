@@ -28,19 +28,21 @@ class Controller:
         self.main_window.refresh_chessboard_widget(empty_svg_data)
         self.main_window.refresh_pgn_viewer_widget(self.chess_game.san_moves_list, highlighted_move=None)
 
+    def refresh_main_window(self):
+        svg_data = self.chess_game.get_svg()
+        san_moves_list = self.chess_game.san_moves_list
+        highlighted_move = self.chess_game.current_move_index
+
+        self.main_window.refresh_chessboard_widget(svg_data)
+        self.main_window.refresh_pgn_viewer_widget(san_moves_list, highlighted_move=highlighted_move)
+
     def load_game_from_pgn(self):
         pgn_filename, _ = QFileDialog.getOpenFileName(self.main_window, "Load PGN file", "", "PGN file (*.pgn)")
         if not pgn_filename:
             return
 
         self.chess_game = ChessGame.from_pgn_file(pgn_filename)
-
-        if self.chess_game.san_moves_list:
-            print("Loading first move!")
-            self.chess_game.move_forward()
-
-        self.main_window.refresh_chessboard_widget(self.chess_game.get_svg())
-        self.main_window.refresh_pgn_viewer_widget(self.chess_game.san_moves_list, highlighted_move=self.chess_game.current_move_index)
+        self.refresh_main_window()
 
     def runapp(self):
         self.main_window.show()
@@ -48,13 +50,8 @@ class Controller:
 
     def prev_move(self):
         self.chess_game.move_backward()
-        self.main_window.refresh_chessboard_widget(self.chess_game.get_svg())
-        self.main_window.refresh_pgn_viewer_widget(self.chess_game.san_moves_list, highlighted_move=self.chess_game.current_move_index)
-        
-        print(f"Current move index: {self.chess_game.current_move_index}")
+        self.refresh_main_window()
         
     def next_move(self):
         self.chess_game.move_forward()
-        self.main_window.refresh_chessboard_widget(self.chess_game.get_svg())
-        self.main_window.refresh_pgn_viewer_widget(self.chess_game.san_moves_list, highlighted_move=self.chess_game.current_move_index)
-        print(f"Current move index: {self.chess_game.current_move_index}")
+        self.refresh_main_window()
