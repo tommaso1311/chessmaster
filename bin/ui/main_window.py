@@ -1,9 +1,9 @@
-from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel
+from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QLabel
 from PySide6.QtGui import QAction
 
 from bin.constants import MAIN_WINDOW_TITLE, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT
 from bin.ui.chess_board import ChessBoardWidget
-from bin.ui.pgn_viewer import PgnViewerWidget
+from bin.ui.pgn_viewer import PgnViewerWidget, PgnNavigationButtonsWidget
 from bin.ui.engine_widget import EngineWidget
 
 class MainWindow(QMainWindow):
@@ -31,7 +31,7 @@ class MainWindow(QMainWindow):
         self.chess_board_widget = ChessBoardWidget()
         main_layout.addWidget(self.chess_board_widget, stretch=2)
 
-        # Create and add the PGN viewer widget to the right
+        # Create and add a right_container to the right
         right_container = QWidget()
         right_layout = QVBoxLayout()
         right_container.setLayout(right_layout)
@@ -45,14 +45,8 @@ class MainWindow(QMainWindow):
         right_layout.addWidget(self.pgn_viewer_widget)
 
         # Buttons
-        self.prev_button = QPushButton("←")
-        self.next_button = QPushButton("→")
-
-        button_layout = QHBoxLayout()
-        button_layout.addWidget(self.prev_button)
-        button_layout.addWidget(self.next_button)
-
-        right_layout.addLayout(button_layout)
+        self.pgn_navigation_buttons_widget = PgnNavigationButtonsWidget()
+        right_layout.addWidget(self.pgn_navigation_buttons_widget)
 
         main_layout.addWidget(right_container, stretch=1)
 

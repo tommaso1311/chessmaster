@@ -9,11 +9,19 @@ class ChessEngine:
         except FileNotFoundError:
             raise FileNotFoundError(f"Engine not found at {engine_path}. Please ensure the engine is installed.")
 
+        self._is_enabled = False
+
+    def toggle_engine(self, enabled):
+        self._is_enabled = enabled
+
     def get_best_move(self, board, time_limit=ENGINE_TIME_LIMIT):
-        time_limit = chess.engine.Limit(time=ENGINE_TIME_LIMIT)
-        result = self.engine.play(board, time_limit)
-        move_san = board.san(result.move)
-        return move_san
+        if self._is_enabled:
+            time_limit = chess.engine.Limit(time=ENGINE_TIME_LIMIT)
+            result = self.engine.play(board, time_limit)
+            move_san = board.san(result.move)
+            return move_san
+        else:
+            return "N/A"
 
     def shutdown(self):
         if self.engine:
