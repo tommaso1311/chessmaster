@@ -1,6 +1,8 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QAbstractItemView
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QAbstractItemView, QHeaderView
 from PySide6.QtCore import Qt
 from itertools import zip_longest
+
+from bin.constants import HIGHLIGHT_BACKGROUND_COLOR, HIGHTLIGHT_FOREGROUND_COLOR
 
 class NonInteractiveTableWidget(QTableWidget):
     def mousePressEvent(self, event):
@@ -26,14 +28,29 @@ class PgnViewerWidget(QWidget):
 
     def create_empty_table(self, n_rows):
         table_widget = NonInteractiveTableWidget()
+
+        # Disable focus, editing, and scrollbar
         table_widget.setFocusPolicy(Qt.NoFocus)
         table_widget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        table_widget.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
+        # Disattiva completamente la selezione
+        table_widget.setSelectionMode(QAbstractItemView.NoSelection)
 
         table_widget.setColumnCount(2)
         table_widget.setHorizontalHeaderLabels(["White", "Black"])
-        table_widget.horizontalHeader().setStretchLastSection(True)
+
+        # Horizontal header
+        header_h = table_widget.horizontalHeader()
+        header_h.setStretchLastSection(True)
+        header_h.setSectionResizeMode(QHeaderView.Fixed)
+        header_h.setSectionsClickable(False)
         
-        table_widget.verticalHeader().setMinimumWidth(25)
+        # Vertical header
+        header_v = table_widget.verticalHeader()
+        header_v.setMinimumWidth(25)
+        header_v.setSectionResizeMode(QHeaderView.Fixed)
+        header_v.setSectionsClickable(False)
 
         return table_widget
 
@@ -68,4 +85,5 @@ class PgnViewerWidget(QWidget):
         highlighted_item = self.table_widget.item(highlighted_row, highlighted_col)
 
         if highlighted_item:
-            self.table_widget.setCurrentCell(highlighted_row, highlighted_col)
+            highlighted_item.setBackground(HIGHLIGHT_BACKGROUND_COLOR)
+            highlighted_item.setForeground(HIGHTLIGHT_FOREGROUND_COLOR)
