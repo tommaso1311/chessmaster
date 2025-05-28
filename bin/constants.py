@@ -23,3 +23,5 @@ STOCKFISH_ENGINE = {
     # 'Darwin': 'stockfish-mac-x86-64'
 }[system]
 STOCKFISH_ENGINE_PATH = os.path.join(ENGINES_FOLDER_PATH, STOCKFISH_ENGINE)
+
+ENGINE_TIME_LIMIT = 0.1  # seconds

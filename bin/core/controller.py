@@ -14,7 +14,7 @@ class Controller:
         empty_svg_data = self.chess_game.get_svg() # empty chessboard
         
         # Core - Chess Engine
-        self.engine = ChessEngine(STOCKFISH_ENGINE_PATH)
+        self.chess_engine = ChessEngine(STOCKFISH_ENGINE_PATH)
 
         # UI - Main Window
         self.app = QApplication(args)
@@ -39,6 +39,9 @@ class Controller:
         self.main_window.refresh_chessboard_widget(svg_data)
         self.main_window.refresh_pgn_viewer_widget(san_moves_list, highlighted_move=highlighted_move)
 
+        if san_moves_list:
+            print(self.chess_engine.get_best_move(self.chess_game.board))
+
     def load_game_from_pgn(self):
         pgn_filename, _ = QFileDialog.getOpenFileName(self.main_window, "Load PGN file", "", "PGN file (*.pgn)")
         if not pgn_filename:
@@ -47,10 +50,6 @@ class Controller:
         self.chess_game = ChessGame.from_pgn_file(pgn_filename)
         self.refresh_main_window()
 
-    def runapp(self):
-        self.main_window.show()
-        self.app.exec()
-
     def prev_move(self):
         self.chess_game.move_backward()
         self.refresh_main_window()
@@ -58,3 +57,12 @@ class Controller:
     def next_move(self):
         self.chess_game.move_forward()
         self.refresh_main_window()
+
+    def runapp(self):
+        self.app.aboutToQuit.connect(self.engine_shutdown)
+
+        self.main_window.show()
+        self.app.exec()
+
+    def engine_shutdown(self):
+        self.chess_engine.shutdown()
