@@ -5,7 +5,6 @@ from bin.core.chess_engine import ChessEngine
 from bin.constants import STOCKFISH_ENGINE_PATH
 
 from bin.ui.main_window import MainWindow
-from bin.ui.chess_board import ChessBoardWidget
 
 class Controller:
     def __init__(self, args):

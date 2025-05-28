@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout
 from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtCore import QByteArray
 
-class ChessBoardWidget(QWidget):
+class ChessboardWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
 

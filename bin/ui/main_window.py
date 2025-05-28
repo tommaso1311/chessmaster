@@ -2,8 +2,8 @@ from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QL
 from PySide6.QtGui import QAction
 
 from bin.constants import MAIN_WINDOW_TITLE, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT
-from bin.ui.chess_board import ChessBoardWidget
-from bin.ui.pgn_viewer import PgnViewerWidget, PgnNavigationButtonsWidget
+from bin.ui.chessboard_widget import ChessboardWidget
+from bin.ui.pgn_widgets import PgnViewerWidget, PgnNavigationButtonsWidget
 from bin.ui.engine_widget import EngineWidget
 
 class MainWindow(QMainWindow):
@@ -28,8 +28,8 @@ class MainWindow(QMainWindow):
         central_widget.setLayout(main_layout)
 
         # Create and add the chess board widget to the left
-        self.chess_board_widget = ChessBoardWidget()
-        main_layout.addWidget(self.chess_board_widget, stretch=2)
+        self.chessboard_widget = ChessboardWidget()
+        main_layout.addWidget(self.chessboard_widget, stretch=2)
 
         # Create and add a right_container to the right
         right_container = QWidget()
@@ -51,7 +51,7 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(right_container, stretch=1)
 
     def refresh_chessboard_widget(self, svg_data):
-        self.chess_board_widget.load_from_svg(svg_data)
+        self.chessboard_widget.load_from_svg(svg_data)
 
     def refresh_pgn_viewer_widget(self, moves, highlighted_move):
         self.pgn_viewer_widget.load_moves_from_list(moves, highlighted_move)
