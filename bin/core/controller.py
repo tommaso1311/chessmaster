@@ -1,17 +1,20 @@
 from PySide6.QtWidgets import QApplication, QFileDialog
-# from PySide6.QtGui import QAction
 
 from bin.core.chess_game import ChessGame
+from bin.core.chess_engine import ChessEngine
+from bin.constants import STOCKFISH_ENGINE_PATH
 
 from bin.ui.main_window import MainWindow
 from bin.ui.chess_board import ChessBoardWidget
 
 class Controller:
     def __init__(self, args):
-        # Core
+        # Core - Chess Game
         self.chess_game = ChessGame(game=None) # empty game
         empty_svg_data = self.chess_game.get_svg() # empty chessboard
-        # empty_move_set = self.chess_game.get_san_moves_list() # empty move set
+        
+        # Core - Chess Engine
+        self.engine = ChessEngine(STOCKFISH_ENGINE_PATH)
 
         # UI - Main Window
         self.app = QApplication(args)
@@ -25,7 +28,7 @@ class Controller:
         self.main_window.next_button.clicked.connect(self.next_move)
 
         # UI - Widgets Refresh
-        self.main_window.refresh_chessboard_widget(empty_svg_data)
+        self.main_window.refresh_chessboard_widget(self.chess_game.get_svg())
         self.main_window.refresh_pgn_viewer_widget(self.chess_game.san_moves_list, highlighted_move=None)
 
     def refresh_main_window(self):
