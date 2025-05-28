@@ -33,18 +33,22 @@ class Controller:
         self.main_window.refresh_pgn_viewer_widget(self.chess_game.san_moves_list, highlighted_move=None)
 
     def refresh_main_window(self):
+        # Get new data
+        # svg
         svg_data = self.chess_game.get_svg()
+        # moves
         san_moves_list = self.chess_game.san_moves_list
         highlighted_move = self.chess_game.current_move_index
-
-        self.main_window.refresh_chessboard_widget(svg_data)
-        self.main_window.refresh_pgn_viewer_widget(san_moves_list, highlighted_move=highlighted_move)
-
-        if self.main_window.stockfish_widget.engine_button.isChecked() and san_moves_list:
+        # engine best move
+        if san_moves_list and self.main_window.stockfish_widget.engine_button.isChecked():
             best_move = self.chess_engine.get_best_move(self.chess_game.board)
         else:
             best_move = "N/A"
-        self.main_window.stockfish_widget.best_move_label.setText(f"Best move: {best_move}")
+
+        # Refresh UI widgets
+        self.main_window.refresh_chessboard_widget(svg_data)
+        self.main_window.refresh_pgn_viewer_widget(san_moves_list, highlighted_move=highlighted_move)
+        self.main_window.refresh_engine_widget(best_move)
 
     def load_game_from_pgn(self):
         pgn_filename, _ = QFileDialog.getOpenFileName(self.main_window, "Load PGN file", "", "PGN file (*.pgn)")
@@ -61,6 +65,10 @@ class Controller:
     def next_move(self):
         self.chess_game.move_forward()
         self.refresh_main_window()
+
+    def get_engine_best_move(self, board):
+        best_move = self.chess_engine.get_best_move(board)
+        return best_move
 
     def runapp(self):
         self.app.aboutToQuit.connect(self.engine_shutdown)

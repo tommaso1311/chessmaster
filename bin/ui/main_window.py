@@ -62,4 +62,6 @@ class MainWindow(QMainWindow):
     def refresh_pgn_viewer_widget(self, moves, highlighted_move):
         self.pgn_viewer_widget.load_moves_from_list(moves, highlighted_move)
 
-    
+    def refresh_engine_widget(self, best_move):
+        self.stockfish_widget.best_move_label.setText(f"Best move: {best_move}")
+        self.stockfish_widget.engine_button.setChecked(best_move != "N/A")

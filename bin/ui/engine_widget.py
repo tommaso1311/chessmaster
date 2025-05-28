@@ -12,3 +12,6 @@ class EngineWidget(QWidget):
         layout.addWidget(self.engine_button)
         layout.addWidget(self.best_move_label)
         layout.addStretch()
+    
+    def set_best_move(self, best_move="N/A"):
+        self.best_move_label.setText(f"Best move: {best_move}")
