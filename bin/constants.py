@@ -1,6 +1,10 @@
-# Project folders
-BIN_FOLDER = 'bin'
-ASSETS_FOLDER = 'assets'
+from PySide6.QtCore import Qt
 
-# Project assets
-CHESSBOARD_SVG = 'chessboard.svg'
+MAIN_WINDOW_TITLE = 'Chessmaster'
+MAIN_WINDOW_WIDTH = 800
+MAIN_WINDOW_HEIGHT = 600
+
+HIGHLIGHT_BACKGROUND_COLOR = Qt.yellow
+HIGHTLIGHT_FOREGROUND_COLOR = Qt.black
+
+EMPTY_BOARD_FEN = '8/8/8/8/8/8/8/8 w - - 0 1'
