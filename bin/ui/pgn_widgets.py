@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QAbstractItemView, QHeaderView
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem, QAbstractItemView, QHeaderView, QPushButton
 from PySide6.QtCore import Qt
 from itertools import zip_longest
 
@@ -87,3 +87,15 @@ class PgnViewerWidget(QWidget):
         if highlighted_item:
             highlighted_item.setBackground(HIGHLIGHT_BACKGROUND_COLOR)
             highlighted_item.setForeground(HIGHTLIGHT_FOREGROUND_COLOR)
+
+class PgnNavigationButtonsWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        layout = QHBoxLayout(self)
+
+        self.prev_button = QPushButton("←")
+        self.next_button = QPushButton("→")
+
+        layout.addWidget(self.prev_button)
+        layout.addWidget(self.next_button)
