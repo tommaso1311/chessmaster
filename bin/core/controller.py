@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QApplication, QFileDialog
-from PySide6.QtGui import QAction
+# from PySide6.QtGui import QAction
 
 from bin.core.chess_game import ChessGame
 
@@ -16,19 +16,17 @@ class Controller:
         # UI - Main Window
         self.app = QApplication(args)
         self.main_window = MainWindow()
-        self.create_menu_bar()
 
+        # UI - Menu Bar
+        self.main_window.load_game_from_pgn_action.triggered.connect(self.load_game_from_pgn)
+
+        # UI - Buttons
+        self.main_window.prev_button.clicked.connect(self.prev_move)
+        self.main_window.next_button.clicked.connect(self.next_move)
+
+        # UI - Widgets Refresh
         self.main_window.refresh_chessboard_widget(empty_svg_data)
         self.main_window.refresh_pgn_viewer_widget(empty_move_set, highlighted_move=None)
-
-    def create_menu_bar(self):
-        menubar = self.main_window.menuBar()
-        file_menu = menubar.addMenu("File")
-
-        # File Menu
-        load_game_from_pgn_action = QAction("Load game (.pgn)", self.main_window)
-        load_game_from_pgn_action.triggered.connect(self.load_game_from_pgn)
-        file_menu.addAction(load_game_from_pgn_action)
 
     def load_game_from_pgn(self):
         pgn_filename, _ = QFileDialog.getOpenFileName(self.main_window, "Load PGN file", "", "PGN file (*.pgn)")
@@ -45,3 +43,9 @@ class Controller:
     def runapp(self):
         self.main_window.show()
         self.app.exec()
+
+    def prev_move(self):
+        print("Previous move button clicked")
+    
+    def next_move(self):
+        print("Next move button clicked")

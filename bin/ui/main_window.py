@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton
+from PySide6.QtGui import QAction
 
 from bin.constants import MAIN_WINDOW_TITLE, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT
 from bin.ui.chess_board import ChessBoardWidget
@@ -10,6 +11,14 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.setWindowTitle(MAIN_WINDOW_TITLE)
         self.resize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT)
+
+        # Create Menu Bar
+        menubar = self.menuBar()
+        file_menu = menubar.addMenu("File")
+
+        # File menu actions
+        self.load_game_from_pgn_action = QAction("Load game (.pgn)", self)
+        file_menu.addAction(self.load_game_from_pgn_action)
 
         # Set up the central widget and layout
         central_widget = QWidget()
@@ -42,18 +51,10 @@ class MainWindow(QMainWindow):
 
         main_layout.addWidget(right_container, stretch=1)
 
-        # Connect buttons to slots (you'll implement these)
-        self.prev_button.clicked.connect(self.prev_move)
-        self.next_button.clicked.connect(self.next_move)
-
     def refresh_chessboard_widget(self, svg_data):
         self.chess_board_widget.load_from_svg(svg_data)
 
     def refresh_pgn_viewer_widget(self, moves, highlighted_move):
         self.pgn_viewer_widget.load_moves_from_list(moves, highlighted_move)
 
-    def prev_move(self):
-        print("Previous move button clicked")
     
-    def next_move(self):
-        print("Next move button clicked")
