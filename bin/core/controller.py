@@ -26,6 +26,7 @@ class Controller:
         # UI - Buttons
         self.main_window.prev_button.clicked.connect(self.prev_move)
         self.main_window.next_button.clicked.connect(self.next_move)
+        self.main_window.stockfish_widget.engine_button.toggled.connect(self.refresh_main_window)
 
         # UI - Widgets Refresh
         self.main_window.refresh_chessboard_widget(self.chess_game.get_svg())
@@ -39,8 +40,11 @@ class Controller:
         self.main_window.refresh_chessboard_widget(svg_data)
         self.main_window.refresh_pgn_viewer_widget(san_moves_list, highlighted_move=highlighted_move)
 
-        if san_moves_list:
-            print(self.chess_engine.get_best_move(self.chess_game.board))
+        if self.main_window.stockfish_widget.engine_button.isChecked() and san_moves_list:
+            best_move = self.chess_engine.get_best_move(self.chess_game.board)
+        else:
+            best_move = "N/A"
+        self.main_window.stockfish_widget.best_move_label.setText(f"Best move: {best_move}")
 
     def load_game_from_pgn(self):
         pgn_filename, _ = QFileDialog.getOpenFileName(self.main_window, "Load PGN file", "", "PGN file (*.pgn)")
